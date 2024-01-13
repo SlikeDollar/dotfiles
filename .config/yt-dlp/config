@@ -1,0 +1,9 @@
+# Always extract audio
+-x
+
+# Save to that directory
+-o ~/music/youtube-dl/%(title)s.%(ext)s
+
+# Audio Format
+--audio-format "best"
+--recode-video "mp3"
