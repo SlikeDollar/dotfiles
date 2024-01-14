@@ -17,8 +17,6 @@ alias feh="devour feh"
 alias config-xmonad="nvim ~/.config/xmonad/xmonad.hs"
 alias config-nvim="nvim ~/.config/nvim/"
 alias config-nixos="sudo nvim /etc/nixos/configuration.nix"
-# Projects
-
 
 # Parametr aliases
 brightness() {

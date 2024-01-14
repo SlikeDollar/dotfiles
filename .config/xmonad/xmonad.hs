@@ -153,10 +153,10 @@ clickable ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
     where i = fromJust $ M.lookup ws myWorkspaceIndices
 
 myNormalBorderColor :: String
-myNormalBorderColor  = "#292d3e"
+myNormalBorderColor  = "#af3a03"
 
 myFocusedBorderColor :: String
-myFocusedBorderColor = "#bbc5ff"
+myFocusedBorderColor = "#fe8019"
 
 myShowWNameTheme :: SWNConfig
 myShowWNameTheme = def
