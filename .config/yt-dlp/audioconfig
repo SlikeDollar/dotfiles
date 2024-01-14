@@ -8,3 +8,7 @@
 # Audio Format
 --audio-format "best"
 --recode-video "mp3"
+
+# Add artist to metadata(cmus hack)
+--parse-metadata "your artist: %(album_artist)s"
+--embed-metadata
