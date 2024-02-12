@@ -1,13 +1,16 @@
 alias ..='cd ..'
-alias ls='exa --icons -l'
+# alias ls='exa --icons -l'
 alias ll='ls -a'
 alias grep='grep --colour=auto'
 alias cp="cp -i"
 alias df='df -h'
 alias free='free -m'
 alias nrs="sudo nixos-rebuild switch -I nixos-config=/home/slikedollar/.dotfiles-nix/configuration.nix"
+alias ngc="sudo nix-collect-garbage --delete-old"
 alias !="sudo"
 alias tsp="ts"
+alias yt="yt-dlp"
+alias yta="yt-dlp --config-locations=~/.config/yt-dlp/audioconfig"
 
 alias mpv="devour mpv"
 alias zathura="devour zathura"

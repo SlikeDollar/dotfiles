@@ -1,0 +1,4 @@
+#!/bin/sh
+
+recursively-add-playlists.sh /home/slikedollar/music /home/slikedollar/.config/cmus/playlists/
+cmus
