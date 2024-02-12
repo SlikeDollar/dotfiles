@@ -304,7 +304,7 @@ myStartupHook = do
   spawn "setxkbmap -option caps:escape"
   spawn "killall xmobar &"
   spawn "syncthing --no-browser"
-  spawnOnce "redshift -l 48.159228:17.122007 &"
+  spawn "redshift -l 48.159228:17.122007 &"
   spawnOnce "~/.fehbg &"
   spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 2 --transparent true --alpha 0 " ++ colorTrayer ++ " --height 22")
 

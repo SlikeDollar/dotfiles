@@ -1,0 +1,33 @@
+#!/bin/sh
+# else in grep can be used to check if file does not exist(else)
+
+updatePlaylists() {
+  [ "$(basename "$1")" == "." ] && exit
+
+  if [ -d "$1" ]; then
+    for item in $1/*; do
+      updatePlaylists "$item" $2
+    done
+    return
+  fi
+
+  coolWords=("cool" "sad" "winning" "calm" "silly" "epic" "sunny" "dark")
+  groupingDir=$(basename $(dirname $(dirname "$1")))
+  parentDir=$(basename $(dirname "$1"))
+  playlistPath="$2$parentDir"
+
+  for word in ${coolWords[@]}; do
+    if [[ "$parentDir" == *$word* ]]; then
+      playlistPath="$2$groupingDir-$parentDir"
+      break
+    fi
+  done
+
+  if grep -q "$1" $playlistPath; then
+    return
+  fi
+
+  echo "$1" >> "$playlistPath"
+}
+
+updatePlaylists $1 $2

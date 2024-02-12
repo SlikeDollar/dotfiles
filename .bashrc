@@ -1,5 +1,5 @@
 alias ..='cd ..'
-# alias ls='exa --icons -l'
+alias ls='exa --icons -l'
 alias ll='ls -a'
 alias grep='grep --colour=auto'
 alias cp="cp -i"
