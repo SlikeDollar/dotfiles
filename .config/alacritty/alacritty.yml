@@ -10,16 +10,16 @@ scrolling:
 
 font:
   normal:
-    family: Terminus
+    family: "Terminus"
     style:  Regular
   bold:
-    family: Terminus
+    family: "Terminus"
     style:  Bold
   italic:
-    family: Terminus
+    family: "Terminus"
     style:  Italic
   bold_italic:
-    family: Terminus
+    family: "Terminus"
     style: Bold Italic
   size: 12
 

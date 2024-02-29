@@ -1,5 +1,4 @@
 #!/bin/sh
-# else in grep can be used to check if file does not exist(else)
 
 updatePlaylists() {
   [ "$(basename "$1")" == "." ] && exit

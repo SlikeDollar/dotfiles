@@ -1,0 +1,11 @@
+#!/bin/sh
+path=~/.local/share/bookmarks
+
+chosenFile=$(ls $path | dmenu -i)
+[ "$chosenFile" ] || exit
+
+chosenLink=$(dmenu -i -l 20 < "$path/$chosenFile" | sed -r "s/\s+\;[\w\s]*//")
+[ "$chosenLink" ] || exit
+
+printf "%s" "$chosenLink" | xclip -selection clipboard
+notify-send "'$chosenLink' copied." &

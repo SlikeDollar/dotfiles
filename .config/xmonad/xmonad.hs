@@ -174,10 +174,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch browsers
      ((modm, xK_b ), submap . M.fromList $
        [
-          ((0, xK_q), spawn "qutebrowser"),
           ((0, xK_b), spawn "brave"),
           ((0, xK_f), spawn "firefox")
        ]),
+
+     ((modm, xK_q ), spawn "~/.local/bin/dmenukaomoji"),
+     ((modm, xK_c ), spawn "~/.local/bin/dmenuemoji"),
 
     -- start sound programs
      ((modm ,xK_comma), spawn "blueberry & pavucontrol"),
@@ -304,7 +306,7 @@ myStartupHook = do
   spawn "setxkbmap -option caps:escape"
   spawn "killall xmobar &"
   spawn "syncthing --no-browser"
-  spawn "redshift -l 48.159228:17.122007 &"
+  spawnOnce "redshift -l 48.159228:17.122007 &"
   spawnOnce "~/.fehbg &"
   spawn ("sleep 2 && trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 2 --transparent true --alpha 0 " ++ colorTrayer ++ " --height 22")
 
