@@ -1,0 +1,10 @@
+#!/bin/sh
+if [ "$LAYOUT" = "ru" ]; then
+  setxkbmap -model pc104 -layout us,ua -option grp:win_space_toggle
+  export LAYOUT="ua"
+else
+  setxkbmap -model pc104 -layout us,ru -option grp:win_space_toggle
+  export LAYOUT="ru"
+fi
+
+notify-send "current layout - $LAYOUT"

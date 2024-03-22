@@ -8,10 +8,11 @@ alias free='free -m'
 alias nrs="sudo nixos-rebuild switch -I nixos-config=/home/slikedollar/.dotfiles-nix/configuration.nix"
 alias ngc="sudo nix-collect-garbage --delete-old"
 alias !="sudo"
-alias tsp="ts"
 alias yt="yt-dlp"
 alias yta="yt-dlp --config-locations=~/.config/yt-dlp/audioconfig"
 alias clus="rm -r ~/.config/cmus/playlists/*"
+alias 800x600="xrandr --output HDMI-A-0 --mode 800x600"
+alias 1920x1080="xrandr --output HDMI-A-0 --mode 1920x1080"
 
 alias mpv="devour mpv"
 alias zathura="devour zathura"

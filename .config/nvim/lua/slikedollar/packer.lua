@@ -19,6 +19,12 @@ return require('packer').startup(function(use)
 
   use("numToStr/FTerm.nvim")
 
+  use {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    requires = { {"nvim-lua/plenary.nvim"} }
+  }
+
   use({
       "folke/trouble.nvim",
       config = function()

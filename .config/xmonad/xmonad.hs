@@ -178,9 +178,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
           ((0, xK_f), spawn "firefox")
        ]),
 
-     ((modm, xK_q ), spawn "~/.local/bin/dmenukaomoji"),
-     ((modm, xK_c ), spawn "~/.local/bin/dmenuemoji"),
-
     -- start sound programs
      ((modm ,xK_comma), spawn "blueberry & pavucontrol"),
 
@@ -198,7 +195,6 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     --  Reset the layouts on the current workspace to default
      ((modm .|. shiftMask ,xK_Tab ), setLayout $ XMonad.layoutHook conf),
-
 
     -- Resize viewed windows to the correct size
      ((modm               ,xK_n     ), refresh),
@@ -244,6 +240,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- Dmenu scripts
      ((modm ,xK_d), spawn "dmenu_run"),
+     ((modm .|. shiftMask, xK_b), spawn "~/.local/bin/dmenubookmark"),
+     ((modm, xK_q ), spawn "~/.local/bin/dmenukaomoji"),
+     ((modm, xK_c ), spawn "~/.local/bin/dmenuemoji"),
+
+    -- Scripts
+      ((modm ,xK_bracketright), spawn "source chlang"),
 
     -- Screenshot
      ((modm, xK_p), spawn "maim | xclip -selection clipboard -t image/png"),
@@ -303,7 +305,7 @@ myManageHook = composeAll
 
 myStartupHook :: X ()
 myStartupHook = do
-  spawn "setxkbmap -option caps:escape"
+  spawn "setxkbmap -model pc104 -layout us,ru -option grp:win_space_toggle -option caps:escape"
   spawn "killall xmobar &"
   spawn "syncthing --no-browser"
   spawnOnce "redshift -l 48.159228:17.122007 &"
