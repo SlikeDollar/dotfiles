@@ -1,4 +1,3 @@
 #!/bin/sh
 
 cmup /home/slikedollar/music /home/slikedollar/.config/cmus/playlists/
-# cmus

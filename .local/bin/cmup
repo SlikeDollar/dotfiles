@@ -12,7 +12,7 @@ updatePlaylists() {
 
   coolWords=("cool" "sad" "winning" "calm" "silly" "epic" "sunny" "dark")
   groupingDir=$(basename $(dirname $(dirname "$1")))
-  parentDir=$(basename $(dirname "$1"))
+  parentDir="$(basename $(dirname "$1"))"
   playlistPath="$2$parentDir"
 
   for word in ${coolWords[@]}; do
@@ -22,11 +22,12 @@ updatePlaylists() {
     fi
   done
 
-  if grep -q "$1" $playlistPath; then
+
+  if grep -qF "$1" "$playlistPath"; then
     return
   fi
 
   echo "$1" >> "$playlistPath"
 }
 
-updatePlaylists $1 $2
+updatePlaylists /home/slikedollar/music /home/slikedollar/.config/cmus/playlists/

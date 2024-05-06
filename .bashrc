@@ -14,7 +14,7 @@ alias clus="rm -r ~/.config/cmus/playlists/*"
 alias 800x600="xrandr --output HDMI-A-0 --mode 800x600"
 alias 1920x1080="xrandr --output HDMI-A-0 --mode 1920x1080"
 
-alias mpv="devour mpv"
+alias mpvd="devour mpv"
 alias zathura="devour zathura"
 alias feh="devour feh"
 
