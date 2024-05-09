@@ -1,11 +1,18 @@
 #!/bin/sh
 
+removeGarbage() {
+  cat "$1" | while read line; do
+    if [ ! -e "$line" ]; then
+      echo $(grep -vF "$line" "$1") > $1
+    fi
+  done
+}
+
 updatePlaylists() {
   [ "$(basename "$1")" == "." ] && exit
-
   if [ -d "$1" ]; then
     for item in $1/*; do
-      updatePlaylists "$item" $2
+      updatePlaylists "$item" $2 $3
     done
     return
   fi
@@ -22,6 +29,9 @@ updatePlaylists() {
     fi
   done
 
+  if echo $* | grep -e "-r" -q; then
+    removeGarbage "$playlistPath"
+  fi
 
   if grep -qF "$1" "$playlistPath"; then
     return
@@ -30,4 +40,4 @@ updatePlaylists() {
   echo "$1" >> "$playlistPath"
 }
 
-updatePlaylists /home/slikedollar/music /home/slikedollar/.config/cmus/playlists/
+updatePlaylists $HOME/music $HOME/.config/cmus/playlists/ $1
