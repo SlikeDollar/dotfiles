@@ -1,9 +1,9 @@
 #!/bin/sh
 
 removeGarbage() {
-  cat "$1" | while read line; do
+  cat "$1" 2> /dev/null | while read line; do
     if [ ! -e "$line" ]; then
-      echo $(grep -vF "$line" "$1") > $1
+      echo $(grep -vF "$line" "$1" 2> /dev/null) > $1
     fi
   done
 }
@@ -29,15 +29,15 @@ updatePlaylists() {
     fi
   done
 
-  if echo $* | grep -e "-r" -q; then
+  if echo $* | grep -e "-r" -q 2> /dev/null; then
     removeGarbage "$playlistPath"
   fi
 
-  if grep -qF "$1" "$playlistPath"; then
+  if grep -qF "$1" "$playlistPath" 2> /dev/null; then
     return
   fi
 
   echo "$1" >> "$playlistPath"
 }
 
-updatePlaylists $HOME/music $HOME/.config/cmus/playlists/ $1
+updatePlaylists $HOME/music $HOME/.config/cmus/playlists/ $1 && echo "Updated playlists =)"
