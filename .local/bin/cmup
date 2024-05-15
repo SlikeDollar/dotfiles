@@ -17,17 +17,14 @@ updatePlaylists() {
     return
   fi
 
-  coolWords=("cool" "sad" "winning" "calm" "silly" "epic" "sunny" "dark")
   groupingDir=$(basename $(dirname $(dirname "$1")))
   parentDir="$(basename $(dirname "$1"))"
   playlistPath="$2$parentDir"
 
-  for word in ${coolWords[@]}; do
-    if [[ "$parentDir" == *$word* ]]; then
-      playlistPath="$2$groupingDir-$parentDir"
-      break
-    fi
-  done
+  if [[ "$parentDir" == *$ ]]; then
+    playlistPath="$2$groupingDir-${parentDir%$}"
+    break
+  fi
 
   if echo $* | grep -e "-r" -q 2> /dev/null; then
     removeGarbage "$playlistPath"
