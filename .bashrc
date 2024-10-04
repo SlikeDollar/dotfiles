@@ -1,5 +1,6 @@
 alias ..='cd ..'
 alias ls='exa --icons -l'
+alias l='ls -a'
 alias ll='ls -a'
 alias grep='grep --colour=auto'
 alias cp="cp -i"
@@ -13,6 +14,7 @@ alias yta="yt-dlp --config-locations=~/.config/yt-dlp/audioconfig"
 alias clus="rm -r ~/.config/cmus/playlists/*"
 alias 800x600="xrandr --output HDMI-A-0 --mode 800x600"
 alias 1920x1080="xrandr --output HDMI-A-0 --mode 1920x1080"
+alias conet="ssh -Y voidwalker@192.168.8.103"
 
 alias mpvd="devour mpv"
 alias zathura="devour zathura"
@@ -20,7 +22,7 @@ alias feh="devour feh"
 
 # Path Aliases
 alias config-xmonad="nvim ~/.config/xmonad/xmonad.hs"
-alias config-nvim="nvim ~/.config/nvim/"
+alias config-nvim="cd ~/.config/nvim && nvim ."
 alias config-nixos="sudo nvim /etc/nixos/configuration.nix"
 alias sc="cd ~/.local/bin/ ; ls"
 alias bk="cd ~/.local/share/bookmarks/ ; ls"

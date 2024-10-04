@@ -245,11 +245,13 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
      ((modm, xK_c ), spawn "~/.local/bin/dmenuemoji"),
 
     -- Scripts
-      ((modm ,xK_bracketright), spawn "source chlang"),
+     ((modm ,xK_bracketright), spawn "source chlang"),
 
     -- Screenshot
      ((modm, xK_p), spawn "maim | xclip -selection clipboard -t image/png"),
-     ((modm .|. shiftMask, xK_p), spawn "maim -s | xclip -selection clipboard -t image/png")
+     ((modm .|. shiftMask, xK_p), spawn "maim -s | xclip -selection clipboard -t image/png"),
+     ((modm .|. shiftMask, xK_o), spawn "~/.local/bin/scock-zone"),
+     ((modm, xK_o), spawn "~/.local/bin/scock")
     ]
     ++
     --

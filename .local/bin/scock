@@ -1,0 +1,1 @@
+maim ~/Photos/temp.png && curl -iF files[]=@$HOME/Photos/temp.png https://cockfile.com/upload.php | grep https | sed -n 's/.*\"url\": \"\(.*\)\".*/\1/p' | sed 's/\\//g' | xclip -selection clipboard

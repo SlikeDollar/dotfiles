@@ -1,33 +1,40 @@
 #!/bin/sh
 
+removeGarbage() {
+  cat "$1" 2> /dev/null | while read line; do
+    if [ ! -e "$line" ]; then
+      echo $(grep -vF "$line" "$1" 2> /dev/null) > $1
+    fi
+  done
+}
+
 updatePlaylists() {
   [ "$(basename "$1")" == "." ] && exit
-
   if [ -d "$1" ]; then
     for item in $1/*; do
-      updatePlaylists "$item" $2
+      updatePlaylists "$item" $2 $3
     done
     return
   fi
 
-  coolWords=("cool" "sad" "winning" "calm" "silly" "epic" "sunny" "dark")
   groupingDir=$(basename $(dirname $(dirname "$1")))
   parentDir="$(basename $(dirname "$1"))"
   playlistPath="$2$parentDir"
 
-  for word in ${coolWords[@]}; do
-    if [[ "$parentDir" == *$word* ]]; then
-      playlistPath="$2$groupingDir-$parentDir"
-      break
-    fi
-  done
+  if [[ "$parentDir" == *$ ]]; then
+    playlistPath="$2$groupingDir-${parentDir%$}"
+    break
+  fi
 
-
-  if grep -qF "$1" "$playlistPath"; then
+  if grep -qF "$1" "$playlistPath" 2> /dev/null; then
     return
   fi
 
   echo "$1" >> "$playlistPath"
 }
 
-updatePlaylists /home/slikedollar/music /home/slikedollar/.config/cmus/playlists/
+if echo $* | grep -e "-r" -q 2> /dev/null; then
+  removeGarbage "$playlistPath"
+fi
+
+updatePlaylists $HOME/music $HOME/.config/cmus/playlists/ $1 && echo "Updated playlists =)"
