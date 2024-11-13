@@ -30,16 +30,7 @@ return {
     ft = { "fennel" },
   },
   -- }}}
-  {
-    dir = "~/pipka.nvim",
-    opts = {
-      split = "left",
-    },
-    keys = {
-      { "<leader>P", "<cmd>Pipka<cr>" },
-    },
-    cmd = "Pipka",
-  },
+  -- {{{ Fterm
   {
     "numToStr/FTerm.nvim",
     keys = {
@@ -47,4 +38,4 @@ return {
       { "<A-i>", '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>', mode = "t" },
     },
   },
-}
+} -- }}}

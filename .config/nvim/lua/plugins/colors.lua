@@ -138,7 +138,7 @@ return {
   {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
-    enabled = true,
+    enabled = false,
     lazy = false,
     opts = {
       transparent_mode = true,
@@ -150,4 +150,42 @@ return {
     end,
   },
   -- }}}gruvbox
+  -- {{{ zenbones
+  {
+    "zenbones-theme/zenbones.nvim",
+    priority = 1000,
+    enabled = false,
+    lazy = false,
+    dependencies = "rktjmp/lush.nvim",
+    config = function()
+      vim.g.zenbones = {
+        darken_comments = 45,
+      }
+
+      vim.cmd.colorscheme("zenbones")
+    end,
+  },
+  -- }}}
+  -- {{{ gruber-darker
+  {
+    "blazkowolf/gruber-darker.nvim",
+    enabled = false,
+    priority = 1000,
+    lazy = false,
+    config = function(_, opts)
+      vim.cmd.colorscheme("gruber-darker")
+    end,
+  },
+  -- }}}
+  -- {{{ hyper.nvim
+  {
+    "paulo-granthon/hyper.nvim",
+    enabled = true,
+    priority = 1000,
+    lazy = false,
+    config = function(_, opts)
+      require("hyper").load()
+    end,
+  },
+  -- }}}
 }

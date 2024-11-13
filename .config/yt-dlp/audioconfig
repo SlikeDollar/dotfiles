@@ -5,9 +5,9 @@
 # Save to that directory
 -o ~/Library/music/yt-dlp/%(title)s.%(ext)s
 
-# Audio Format
---audio-format "mp3"
+# format
+--audio-format mp3
 
 # Add artist to metadata(cmus hack)
---parse-metadata "your artist: %(album_artist)s"
---embed-metadata
+--add-metadata
+--parse-metadata "artist:%(artist>%uploader)s"

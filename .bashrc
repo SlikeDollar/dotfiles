@@ -34,5 +34,6 @@ brightness() {
   sudo bash -c "echo $brightness > /sys/class/backlight/intel_backlight/brightness"
 }
 
+export PS1="\[\e[32m\][\u \w]\[\e[0m\] "
 export EDITOR="nvim"
 export PATH="/home/slikedollar/.local/bin:$PATH"

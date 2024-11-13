@@ -307,7 +307,7 @@ myManageHook = composeAll
 
 myStartupHook :: X ()
 myStartupHook = do
-  spawn "setxkbmap -model pc104 -layout us,ru -option grp:win_space_toggle -option caps:escape"
+  spawn "setxkbmap -model pc104 -layout lv,ru -option grp:win_space_toggle -option caps:escape"
   spawn "killall xmobar &"
   spawn "syncthing --no-browser"
   spawnOnce "redshift -l 48.159228:17.122007 &"

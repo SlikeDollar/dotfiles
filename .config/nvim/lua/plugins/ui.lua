@@ -20,7 +20,7 @@ return {
       options = {
         mode = "tabs",
         separator_style = "thin",
-        show_buffer_close_icons = false,
+        show_buffer_close_icons = true,
         show_close_icon = false,
         color_icons = true,
         diagnostics = "nvim_lsp",
@@ -150,8 +150,8 @@ return {
     "folke/trouble.nvim",
     keys = {
       {
-        "<leader>Ld",
-        "<cmd>TroubleToggle lsp_document_symbols<cr>",
+        "<leader>ld",
+        "<cmd>Trouble diagnostics toggle lsp_document_symbols<cr>",
         desc = "open trouble with lsp symbols",
       },
       {

@@ -12,9 +12,13 @@ return {
       -- stylua: ignore
 			{ ";r", function() require("telescope.builtin").live_grep() end, desc = "Find text in files" },
       -- stylua: ignore
-			{ "\\\\", function() require("telescope.builtin").buffers() end, desc = "Show all buffers" },
+			{ ";b", function() require("telescope.builtin").buffers() end, desc = "Show all buffers" },
       -- stylua: ignore
 			{ ";t", function() require("telescope.builtin").help_tags() end, desc = "Show helps" },
+      -- stylua: ignore
+			{ ";tt", function() require("telescope.builtin").builtin() end, desc = "Open telescope" },
+      -- stylua: ignore
+			{ ";m", function() require("telescope.builtin").keymaps() end, desc = "Open telescope" },
       -- stylua: ignore
 			{ ";;", function() require("telescope.builtin").resume() end, desc = "Open last telescope" },
       -- stylua: ignore
@@ -47,10 +51,10 @@ return {
       { "<leader>LS", "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>" },
       { "<leader>Ls", "<cmd>Telescope lsp_document_symbols<cr>" },
       -- stylua: ignore
-			{ "gD", function() vim.lsp.buf.declaration() end, desc = "Goto Definition", },
-      { "gd", "<Cmd>Telescope lsp_definitions<cr>", desc = "References" },
+			{ "gD", function() vim.lsp.buf.declaration() end, desc = "Goto Declaration", },
+      { "gd", "<Cmd>Telescope lsp_definitions<cr>", desc = "Definitions" },
       { "gr", "<Cmd>Telescope lsp_references<cr>", desc = "references" },
-      { "gK", "<Cmd>Telescope lsp_implementations<cr>", desc = "lsp implementations" },
+      { "gi", "<Cmd>Telescope lsp_implementations<cr>", desc = "lsp implementations" },
       { "gt", "<Cmd>Telescope lsp_type_definitions<cr>", desc = "Lsp type defenetions" },
       { ";n", "<Cmd>Telescope notify<cr>", desc = "Find Notifications" },
     }, -- }}}

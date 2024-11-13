@@ -4,6 +4,7 @@ TERM="xterm-256color"
 [colors]
 draw_bold_text_with_bright_colors = true
 
+# -- gruvbox
 [colors.bright]
 black = "0x928374"
 blue = "0x83a598"
@@ -29,23 +30,70 @@ background = "0x282828"
 foreground = "0xebdbb2"
 
 [font]
-size = 12
+size = 15
+
+# Terminus
+
+# [font.bold]
+# family = "Terminus"
+# style = "Bold"
+#
+# [font.bold_italic]
+# family = "Terminus"
+# style = "Bold Italic"
+#
+# [font.italic]
+# family = "Terminus"
+# style = "Italic"
+#
+# [font.normal]
+# family = "Terminus"
+# style = "Regular"
+
+
+# Comic Sans
 
 [font.bold]
-family = "Terminus"
+family = "SeriousShanns Nerd Font Propo"
 style = "Bold"
 
 [font.bold_italic]
-family = "Terminus"
+family = "SeriousShanns Nerd Font Propo"
 style = "Bold Italic"
 
 [font.italic]
-family = "Terminus"
+family = "SeriousShanns Nerd Font Propo"
 style = "Italic"
 
 [font.normal]
-family = "Terminus"
+family = "SeriousShanns Nerd Font Propo"
 style = "Regular"
+
+
+# TempleOS
+
+# [font.bold]
+# family = "TempleOS"
+# style = "Regular"
+#
+# [font.bold_italic]
+# family = "TempleOS"
+# style = "Regular"
+#
+# [font.italic]
+# family = "TempleOS"
+# style = "Regular"
+#
+# [font.normal]
+# family = "TempleOS"
+# style = "Regular"
+
+
+# CozetteHiDpi
+
+# [font.normal]
+# family = "CozetteHiDpi"
+# style = "Medium"
 
 [[keyboard.bindings]]
 action = "SpawnNewInstance"
