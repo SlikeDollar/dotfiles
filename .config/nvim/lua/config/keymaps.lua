@@ -16,10 +16,10 @@ keymap("n", "<C-h>", "<C-w>h")
 keymap("n", "<C-j>", "<C-w>j")
 keymap("n", "<C-k>", "<C-w>k")
 keymap("n", "<C-l>", "<C-w>l")
-keymap("n", "sh", "<C-w>h")
-keymap("n", "sj", "<C-w>j")
-keymap("n", "sk", "<C-w>k")
-keymap("n", "sl", "<C-w>l")
+keymap("n", "sh", "<C-w>H")
+keymap("n", "sj", "<C-w>J")
+keymap("n", "sk", "<C-w>K")
+keymap("n", "sl", "<C-w>L")
 
 keymap("n", "<M-,>", "<c-w>5>")
 keymap("n", "<M-.>", "<c-w>5<")
@@ -58,11 +58,6 @@ keymap("x", "J", ":m '>+1<CR>gv-gv")
 keymap("x", "<A-j>", ":m '>+1<CR>gv-gv")
 keymap("x", "K", ":m '<-2<CR>gv-gv")
 keymap("x", "<A-k>", ":m '<-2<CR>gv-gv")
-
--- Alternative ESC key to avoid <Ctrl-[>.  Useful when a RCP is used to connect
--- to a remote host.
-keymap("i", "jk", "<esc>")
-keymap("c", "jk", "<esc>")
 -- ------------------------------------------------------------------------- }}}
 -- {{{ Folding commands.
 
@@ -82,7 +77,7 @@ keymap("n", "J", "mzJ`z")
 
 --}}}
 ---- {{{ Shell commands.
-
+--
 -- Execute the current line of test as a shell command.
 keymap("n", "<localleader>E", [[0mMvg_"ky :exec "r!" getreg("k")<cr>]])
 keymap("v", "<localleader>E", [["ky :exec "r!" getreg("k")<cr>]])

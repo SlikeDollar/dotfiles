@@ -38,6 +38,7 @@ macro w set browser "lynx" ; open-in-browser ; set browser linkhandler
 macro d set browser "dmenuhandler" ; open-in-browser ; set browser linkhandler
 macro c set browser "echo %u | xclip -r -sel c" ; open-in-browser ; set browser linkhandler
 macro C set browser "youtube-viewer --comments=%u" ; open-in-browser ; set browser linkhandler
+macro D set browser "opqndl" ; open-in-browser ; set browser linkhandler
 
 highlight all "---.*---" yellow
 highlight feedlist ".*(0/0))" black
