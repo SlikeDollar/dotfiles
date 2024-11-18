@@ -1,0 +1,5 @@
+#!/bin/bash
+
+title="$(yt-dlp --print "%(title)s.%(ext)s" "$1")"
+path=~/Library/videos/yt-dlp/"$title"
+rm -r "$path"
