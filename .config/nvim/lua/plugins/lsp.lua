@@ -233,4 +233,13 @@ return {
   -- {{{ neoconf.nvim
   { "folke/neoconf.nvim", enabled = false, cmd = "Neoconf", config = true },
   -- ----------------------------------------------------------------------- }}}
+  -- {{{
+  {
+    "lervag/vimtex",
+    lazy = false,
+    init = function()
+      vim.g.vimtex_view_method = "zathura"
+    end,
+  },
+  -- }}}
 }

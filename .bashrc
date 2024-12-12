@@ -6,15 +6,13 @@ alias grep='grep --colour=auto'
 alias cp="cp -i"
 alias df='df -h'
 alias free='free -m'
-alias nrs="sudo nixos-rebuild switch -I nixos-config=/home/slikedollar/.dotfiles-nix/configuration.nix"
-alias ngc="sudo nix-collect-garbage --delete-old"
-alias !="sudo"
+alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
 alias yt="yt-dlp"
 alias yta="yt-dlp --config-locations=~/.config/yt-dlp/audioconfig"
 alias clus="rm -r ~/.config/cmus/playlists/*"
 alias 800x600="xrandr --output HDMI-A-0 --mode 800x600"
 alias 1920x1080="xrandr --output HDMI-A-0 --mode 1920x1080"
-alias conet="ssh -Y voidwalker@192.168.8.103"
+alias dlbuffer="xclip -selection clipboard -t image/png -o > "
 
 alias mpvd="devour mpv"
 alias zathura="devour zathura"
@@ -27,7 +25,30 @@ alias config-nixos="sudo nvim /etc/nixos/configuration.nix"
 alias sc="cd ~/.local/bin/ ; ls"
 alias bk="cd ~/.local/share/bookmarks/ ; ls"
 
-#
+# # ex - archive extractor
+# # usage: ex <file>
+ex ()
+{
+  if [ -f $1 ] ; then
+    case $1 in
+      *.tar.bz2)   tar xjf $1   ;;
+      *.tar.gz)    tar xzf $1   ;;
+      *.bz2)       bzip2 $1   ;;
+      *.rar)       unrar x $1     ;;
+      *.gz)        gunzip $1    ;;
+      *.tar)       tar xf $1    ;;
+      *.tbz2)      tar xjf $1   ;;
+      *.tgz)       tar xzf $1   ;;
+      *.zip)       unzip $1     ;;
+      *.Z)         uncompress $1;;
+      *.7z)        7z x $1      ;;
+      *)           echo "'$1' cannot be extracted via ex()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
 brightness() {
   percent=$1
   brightness=$((percent * 1515 / 100))
