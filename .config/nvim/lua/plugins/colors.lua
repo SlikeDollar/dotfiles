@@ -138,7 +138,7 @@ return {
   {
     "ellisonleao/gruvbox.nvim",
     priority = 1000,
-    enabled = false,
+    enabled = true,
     lazy = false,
     opts = {
       transparent_mode = true,
@@ -180,7 +180,7 @@ return {
   -- {{{ hyper.nvim
   {
     "paulo-granthon/hyper.nvim",
-    enabled = true,
+    enabled = false,
     priority = 1000,
     lazy = false,
     config = function(_, opts)
