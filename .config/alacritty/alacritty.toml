@@ -108,7 +108,7 @@ multiplier = 3
 save_to_clipboard = false
 
 [window]
-opacity = 0.97
+opacity = 1
 
 [window.class]
 general = "Alacritty"

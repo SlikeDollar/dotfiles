@@ -1,0 +1,175 @@
+{
+  "position": "top",
+  "layer": "top",
+  "height": 38,
+  "margin-top": 0,
+  "margin-bottom": 0,
+  "margin-left": 0,
+  "margin-right": 0,
+  "modules-left": [
+    "custom/launcher",
+    "hyprland/workspaces",
+    "battery",
+    "custom/playerctl",
+    "custom/kernel",
+    "custom/tty"
+  ],
+  "modules-center": [
+    "cpu",
+    "memory",
+    "disk",
+    "temperature",
+    "user",
+  ],
+  "modules-right": [
+    "bluetooth",
+    "network",
+    "pulseaudio",
+    "backlight",
+    "clock"
+  ],
+  "clock": {
+    "format": " {:%H <span foreground='#89b4fa'>󰇙</span> %M}",
+    "tooltip": "true",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "format-alt": " {:%d<span foreground='#89b4fa'> / </span>%m}"
+  },
+  "hyprland/workspaces": {
+    "active-only": false,
+    "all-outputs": true,
+    "disable-scroll": false,
+    "on-scroll-up": "hyprctl dispatch workspace e-1",
+    "on-scroll-down": "hyprctl dispatch workspace e+1",
+    "format": "{icon}",
+    "on-click": "activate",
+    "format-icons": {
+      "1": "一",
+      "2": "二",
+      "3": "三",
+      "4": "四",
+      "5": "五",
+      "6": "六",
+      "7": "七",
+      "8": "八",
+      "9": "九",
+      "10": "十",
+      "sort-by-number": true
+    }
+  },
+  "custom/playerctl": {
+    "format": "{}",
+    "return-type": "json",
+    "max-length": 48,
+    "exec": "playerctl -a metadata --format '{\"text\": \"{{artist}} {{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+    "on-click-middle": "playerctl play-pause",
+    "on-click": "playerctl previous",
+    "on-click-right": "playerctl next"
+  },
+  "battery": {
+    "states": {
+      "good": 95,
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{capacity}% {icon} ",
+    "format-charging": "{capacity}% ",
+    "format-plugged": "{capacity}% ",
+    "format-alt": "{time} {icon} ",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "memory": {
+    "format": " {}%",
+    "format-alt": "󰍛 {used}/{total} GiB",
+    "interval": 5
+  },
+  "cpu": {
+    "format": "󰻠 {usage}%",
+    "format-alt": "󰻠 {avg_frequency} GHz",
+    "interval": 5
+  },
+  "disk": {
+    "format": "󰋊 {percentage_used}%",
+    "format-alt": "󰋊 {used}/{total} GiB",
+    "interval": 5,
+    "path": "/"
+  },
+  "temperature": {
+    "format": "°C {temperatureC}"
+  },
+  "network": {
+    "format-wifi": "󰤨  {}",
+    "tooltip-format": "{essid} {ipaddr}/{cidr} strength {signalStrength}%",
+    "format-ethernet": "󰈁 {ifname}: Aesthetic",
+    "format-linked": " {ifname} (No IP)",
+    "format-disconnected": "󰤭",
+    "format-alt": "󰤨  {ifname}: {ipaddr}/{cidr}",
+    "on-click-right": "nm-connection-editor"
+  },
+  "backlight": {
+    "format": " {percent}%", // replace  icon with {} for dynamic icon changes
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "󰝟",
+    "format-icons": {
+      "default": [
+        "󰕿",
+        "󰖀",
+        "󰕾"
+      ]
+    },
+    "on-scroll-up": "fennel ~/.config/hypr/scripts/volume.fnl incr",
+    "on-scroll-down": "fennel ~/.config/hypr/scripts/volume.fnl decr",
+    "scroll-step": 5,
+    "on-click": "pavucontrol"
+  },
+  "custom/launcher": {
+    "format": "󰘧"
+  },
+  "custom/updates": {
+    "format": "{}",
+    "exec": "~/.config/hypr/scripts/systemupdate.sh"
+  },
+  "bluetooth": {
+    "format": "󰂯 {status}",
+    "format-disabled": "",
+    "format-connected": "󰂯 {num_connections} connected",
+    "tooltip-format": "{controller_alias}\t{controller_address}",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}"
+  },
+  "user": {
+    "format": "{work_H}:{work_M} ↑",
+    "interval": 60,
+    "height": 30,
+    "width": 30,
+    "icon": true
+  },
+  "custom/kernel": {
+    "format": "{}",
+    "exec": "uname -r",
+    "tooltip": "true",
+    "tooltip-format": "{}"
+  },
+  "custom/tty": {
+    "format": "{}",
+    "exec": "tty"
+  }
+}
