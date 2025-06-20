@@ -1,9 +1,9 @@
 #!/bin/sh
 if [ "$LAYOUT" = "ru" ]; then
-  setxkbmap -model pc104 -layout lv,ua -option grp:win_space_toggle
+  setxkbmap -model pc104 -layout lv,ua -option grp:win_space_toggle -option caps:escape 
   export LAYOUT="ua"
 else
-  setxkbmap -model pc104 -layout lv,ru -option grp:win_space_toggle
+  setxkbmap -model pc104 -layout lv,ru -option grp:win_space_toggle -option caps:escape 
   export LAYOUT="ru"
 fi
 

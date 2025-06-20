@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 TEMP=/tmp/current_wall
 
-files=(~/.config/hypr/wallpapers/*)
+files=(~/Library/images/Wallpapers/*)
 
 index=$(cat $TEMP)
 index=$((index+1))

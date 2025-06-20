@@ -123,7 +123,7 @@ return {
   -- }}}
   -- {{{ nvim-colorizer
   {
-    "JosefLitos/colorizer.nvim",
+    "catgoose/nvim-colorizer.lua",
     event = "LazyFile",
     opts = {
       filetypes = { "*" },

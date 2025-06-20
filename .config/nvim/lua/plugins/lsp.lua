@@ -1,10 +1,12 @@
 Constants = require("config.constants")
+local map = require("config.functions").keymap
 
 return {
   -- {{{ mason.nvim
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
+    build = ":MasonUpdate",
     opts = {
       ui = {
         border = "rounded",
@@ -15,231 +17,163 @@ return {
         },
       },
       log_level = vim.log.levels.INFO,
-      max_concurrent_installers = 4,
+      max_concurrent_installers = 10,
       ensure_installed = Constants.ensure_installed.mason,
     },
+    opts_extend = { "ensure_installed" },
     config = function(_, opts)
       require("mason").setup(opts)
       local mr = require("mason-registry")
-      mr:on("package:install:success", function()
-        vim.defer_fn(function()
-          -- trigger FileType event to possibly load this newly installed LSP server
-          require("lazy.core.handler.event").trigger({
-            event = "FileType",
-            buf = vim.api.nvim_get_current_buf(),
-          })
-        end, 100)
-      end)
-      local function ensure_installed()
+
+      mr.refresh(function()
         for _, tool in ipairs(opts.ensure_installed) do
           local p = mr.get_package(tool)
           if not p:is_installed() then
             p:install()
           end
         end
-      end
-      if mr.refresh then
-        mr.refresh(ensure_installed)
-      else
-        ensure_installed()
-      end
+      end)
     end,
   },
   -- ----------------------------------------------------------------------- }}}
-  -- {{{ nvim-lspconfig
   {
     "neovim/nvim-lspconfig",
-    event = "LazyFile",
+    event = "BufReadPre",
+    enabled = true,
     keys = {
-      -- stylua: ignore
-			{ "<leader>Ll", function() vim.lsp.codelens.run() end, },
-      -- stylua: ignore
-			{ "<leader>Lq", function() vim.lsp.diagnostic.set_loclist() end, },
-      -- stylua: ignore
-			{ "gI", function() vim.lsp.buf.code_action() end, },
-      -- stylua: ignore
-			{ "<leader>r", function() vim.lsp.buf.rename() end, desc = "Rename variable" },
-      -- stylua: ignore
-			{ "K", function() vim.lsp.buf.hover() end, },
+      -- stylua: ignore start
+      { "<localleader>d", vim.lsp.implementation,  desc = "Goto implementation" },
+      { "gI",             vim.lsp.buf.code_action, desc = "Code action" },
+      { "<leader>r",      vim.lsp.buf.rename,      desc = "Rename variable" },
+      { "K", function () vim.lsp.buf.hover({border = "rounded"}) end, desc = "BORDER" },
+      -- stylua: ignore end
     },
-
     dependencies = {
-      { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
-      { "folke/neodev.nvim", opts = { experimental = { pathStrict = true } } },
-      "williamboman/mason-lspconfig.nvim",
+      "mason.nvim",
       {
-        "hrsh7th/cmp-nvim-lsp",
+        "williamboman/mason-lspconfig.nvim",
+        branch = "release-please--branches--main--components--mason-lspconfig.nvim",
       },
-    },
-    opts = {
-      diagnostics = {
-        underline = true,
-        update_in_insert = false,
-        virtual_text = { spacing = 4, source = "if_many", prefix = "●" },
-        severity_sort = true,
-        signs = {
-          text = {
-            [vim.diagnostic.severity.ERROR] = "!",
-            [vim.diagnostic.severity.WARN] = "?",
-            [vim.diagnostic.severity.HINT] = "!!",
-            [vim.diagnostic.severity.INFO] = "I",
+      {
+        "folke/lazydev.nvim",
+        ft = "lua",
+        opts = {
+          library = {
+            { path = "${3rd}/luv/library", words = { "vim%.uv" } },
           },
         },
       },
-      format = {
-        formatting_options = nil,
-        timeout_ms = nil,
-      },
-      capabilities = {},
-      servers = {
-        jsonls = require("plugins.lsp.jsonls"),
-        lua_ls = {
-          settings = {
-            Lua = Constants.lua_ls.Lua,
+      "saghen/blink.cmp",
+    },
+    opts = function()
+      return {
+          diagnostics = {
+            underline = true,
+            update_in_insert = false,
+            virtual_text = { spacing = 4, prefix = "●" },
+            severity_sort = true,
+          },        
+          capabilities = {
+          workspace = {
+            fileOperations = {
+              didRename = true,
+              willRename = true,
+            },
           },
         },
-        zls = require("plugins.lsp.zls"),
-      },
-      setup = {
-        -- example to setup with typescript.nvim
-        -- tsserver = function(_, opts)
-        --   require("typescript").setup({ server = opts })
-        --   return true
-        -- end,
-        -- Specify * to use this function as a fallback for any server
-        -- ["*"] = function(server, opts) end,
-      },
-    },
+        servers = {
+          jsonls = require("plugins.lsp.jsonls"),
+          vue_ls = {},
+          ts_ls = {
+            mason = false,
+            init_options = {
+              plugins = {
+                {
+                  name = "@vue/typescript-plugin",
+                  location = vim.fn.expand("$MASON/packages")
+                    .. "/vue-language-server/node_modules/@vue/language-server",
+                  languages = { "vue" },
+                },
+              },
+            },
+            filetypes = { "typescript", "javascript", "javascriptreact", "typescriptreact", "vue" },
+          },
+          lua_ls = {
+            settings = {
+              Lua = Constants.lua_ls.Lua,
+            },
+          },
+        },
+        setup = {},
+        document_highlight = {
+          enabled = true,
+        },
+      }
+    end,
     config = function(_, opts)
       vim.diagnostic.config(opts.diagnostics)
 
       local servers = opts.servers
+      local has_blink, blink = pcall(require, "blink.cmp")
 
-      local hasCmp, cmpNvimLsp = pcall(require, "cmp_nvim_lsp")
       local capabilities = vim.tbl_deep_extend(
         "force",
         {},
         vim.lsp.protocol.make_client_capabilities(),
-        hasCmp and cmpNvimLsp.default_capabilities() or {},
+        has_blink and blink.get_lsp_capabilities() or {},
         opts.capabilities or {}
       )
 
       local function setup(server)
-        local serverOpts = vim.tbl_deep_extend("force", {
+        local server_opts = vim.tbl_deep_extend("force", {
           capabilities = vim.deepcopy(capabilities),
         }, servers[server] or {})
-
-        local border = {
-          { "┌", "FloatBorder" },
-
-          { "─", "FloatBorder" },
-
-          { "┐", "FloatBorder" },
-
-          { "│", "FloatBorder" },
-
-          { "┘", "FloatBorder" },
-
-          { "─", "FloatBorder" },
-
-          { "└", "FloatBorder" },
-
-          { "│", "FloatBorder" },
-        }
-
-        local handlers = {
-          ["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-          ["textDocument/signatureHelp"] = vim.lsp.with(
-            vim.lsp.handlers.signature_help,
-            { border = border }
-          ),
-        }
-
-        serverOpts.handlers = handlers
+        if server_opts.enabled == false then
+          return
+        end
 
         if opts.setup[server] then
-          if opts.setup[server](server, serverOpts) then
+          if opts.setup[server](server, server_opts) then
             return
           end
         elseif opts.setup["*"] then
-          if opts.setup["*"](server, serverOpts) then
+          if opts.setup["*"](server, server_opts) then
             return
           end
         end
-
-        require("lspconfig")[server].setup(serverOpts)
+        require("lspconfig")[server].setup(server_opts)
       end
 
-      local hasMason, mlsp = pcall(require, "mason-lspconfig")
-      local allMslpServers = {}
+      local have_mason, mlsp = pcall(require, "mason-lspconfig")
 
-      if hasMason then
-        allMslpServers =
-          vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
+      local all_mslp_servers = {}
+
+      if have_mason then
+        all_mslp_servers = vim.tbl_keys(mlsp.get_mappings().lspconfig_to_package)
       end
 
-      local ensureInstalled = {} ---@type string[]
-      for server, serverOpts in pairs(servers) do
-        if serverOpts then
-          serverOpts = serverOpts == true and {} or serverOpts
-
-          if serverOpts.mason == false or not vim.tbl_contains(allMslpServers, server) then
-            vim.notify(server)
-
-            setup(server)
-          elseif serverOpts.enabled ~= false then
-            ensureInstalled[#ensureInstalled + 1] = server
+      local ensure_installed = {} ---@type string[]
+      for server, server_opts in pairs(servers) do
+        if server_opts then
+          server_opts = server_opts == true and {} or server_opts
+          if server_opts.enabled ~= false then
+            if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
+              setup(server)
+            else
+              ensure_installed[#ensure_installed + 1] = server
+            end
           end
         end
       end
 
-      if hasMason then
-        mlsp.setup({ ensure_installed = ensureInstalled, handlers = { setup } })
+      if have_mason then
+        mlsp.setup({
+          ensure_installed = vim.tbl_deep_extend("force", ensure_installed, {}),
+          handlers = { setup },
+          automatic_enable = true,
+        })
       end
     end,
   },
   -- ----------------------------------------------------------------------- }}}
-  -- {{{ conform.nvim
-  {
-    "stevearc/conform.nvim",
-    event = { "BufWritePre" },
-    keys = {
-      {
-        "<leader>fr",
-        function()
-          require("conform").format()
-        end,
-        mode = { "x", "n", "v" },
-        desc = "Format file or selection",
-      },
-    },
-    opts = {
-      formatters_by_ft = {
-        lua = { "stylua" },
-        javascript = { { "prettierd" } },
-        typescript = { { "prettierd" } },
-        vue = { { "prettierd" } },
-      },
-      log_level = vim.log.levels.DEBUG,
-      format_on_save = {
-        lsp_fallback = true,
-      },
-    },
-  },
-  -- }}}
-  -- {{{ neodev.nvim
-  { "folke/neodev.nvim", enabled = false },
-  -- ----------------------------------------------------------------------- }}}
-  -- {{{ neoconf.nvim
-  { "folke/neoconf.nvim", enabled = false, cmd = "Neoconf", config = true },
-  -- ----------------------------------------------------------------------- }}}
-  -- {{{
-  {
-    "lervag/vimtex",
-    lazy = false,
-    init = function()
-      vim.g.vimtex_view_method = "zathura"
-    end,
-  },
-  -- }}}
 }

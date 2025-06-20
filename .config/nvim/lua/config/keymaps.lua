@@ -97,3 +97,6 @@ keymap("n", "<leader>HH", "<cmd>silent vert bo help<cr>")
 -- {{{ Lazy
 keymap("n", "<leader>l", "<cmd>:Lazy<cr>")
 -- }}}
+
+keymap("n", "<leader>in", "<Cmd>:set fo-=tc<cr>")
+

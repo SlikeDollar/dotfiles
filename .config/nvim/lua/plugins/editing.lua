@@ -20,7 +20,4 @@ return {
     end,
   },
   -- }}}
-  -- {{{ Mini.ai - better vim a/i motions
-  { "https://github.com/echasnovski/mini.ai", event = "LazyFile" },
-  -- }}}
 }

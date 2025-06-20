@@ -1,36 +1,26 @@
 return {
-  -- {{{ plenary
   {
-    "nvim-lua/plenary.nvim",
-    lazy = true,
+    "echasnovski/mini.keymap",
+    event = "LazyFile",
+    opts = {},
+    enabled = false,
+    config = function(_, opts)
+      local keymap = require("mini.keymap")
+
+      keymap.setup(opts)
+
+      local mode = { "i", "c", "x", "s" }
+
+      keymap.map_combo(mode, "jk", "<BS><BS><Esc>")
+    end,
   },
-  -- ----------------------------------------------------------------------- }}}
-  -- {{{ mini.bufremove
   {
-    "echasnovski/mini.bufremove",
-    opts = {
-      silent = true,
-    },
-    keys = {
-      {
-        "<leader>bd",
-        function()
-          require("mini.bufremove").delete(0)
-        end,
-        desc = "Delete Buffer",
-      },
-    -- stylua: ignore
-    { "<leader>bD", function() require("mini.bufremove").delete(0, true) end, desc = "Delete Buffer (Force)" },
-    },
+    "stevearc/quicker.nvim",
+    event = "FileType qf",
+    ---@module "quicker"
+    ---@type quicker.SetupOptions
+    opts = {},
   },
-  -- }}}
-  -- {{{ nfnlk
-  {
-    "Olical/nfnl",
-    ft = { "fennel" },
-  },
-  -- }}}
-  -- {{{ Fterm
   {
     "numToStr/FTerm.nvim",
     keys = {
@@ -38,4 +28,4 @@ return {
       { "<A-i>", '<C-\\><C-n><CMD>lua require("FTerm").toggle()<CR>', mode = "t" },
     },
   },
-} -- }}}
+}

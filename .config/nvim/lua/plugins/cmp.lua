@@ -1,111 +1,93 @@
 Constants = require("config.constants")
+Constants = require("config.constants")
 
-return {
-  -- {{{ nvim-cmp
-  {
-    "hrsh7th/nvim-cmp",
-    event = "InsertEnter",
-    version = false,
-    dependencies = {
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-calc",
-      "hrsh7th/cmp-cmdline",
-      "hrsh7th/cmp-nvim-lua",
-      "hrsh7th/cmp-nvim-lsp-document-symbol",
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-emoji",
-      "hrsh7th/cmp-path",
-      "saadparwaiz1/cmp_luasnip",
+return
+ -- {{{ blink.cmp
+{
+  "saghen/blink.cmp",
+  -- optional: provides snippets for the snippet source
+  dependencies = "rafamadriz/friendly-snippets",
+  event = "LazyFile",
+
+  version = "1.*",
+
+  ---@module 'blink.cmp'
+  ---@type blink.cmp.Config
+  opts = {
+    keymap = {
+      preset = "default",
+      ["<S-Tab>"] = { "select_prev", "snippet_backward", "fallback" },
+      ["<Tab>"] = { "select_next", "snippet_forward", "fallback" },
+      ["<CR>"] = { "accept", "fallback" },
+      ["<C-p>"] = { "hide" },
+      ["<PageUp>"] = { "scroll_documentation_up", "fallback" },
+      ["<PageDown>"] = { "scroll_documentation_down", "fallback" },
+      -- stylua: ignore start
+      ['<A-1>'] = { function(cmp) cmp.accept({ index = 1 }) end },
+      ['<A-2>'] = { function(cmp) cmp.accept({ index = 2 }) end },
+      ['<A-3>'] = { function(cmp) cmp.accept({ index = 3 }) end },
+      ['<A-4>'] = { function(cmp) cmp.accept({ index = 4 }) end },
+      ['<A-5>'] = { function(cmp) cmp.accept({ index = 5 }) end },
+      ['<A-6>'] = { function(cmp) cmp.accept({ index = 6 }) end },
+      ['<A-7>'] = { function(cmp) cmp.accept({ index = 7 }) end },
+      ['<A-8>'] = { function(cmp) cmp.accept({ index = 8 }) end },
+      ['<A-9>'] = { function(cmp) cmp.accept({ index = 9 }) end },
+      ['<A-0>'] = { function(cmp) cmp.accept({ index = 10 }) end },
+      -- stylua: ignore end
     },
-    opts = function(_, opts)
-      local cmp = require("cmp")
-      local luasnip = require("luasnip")
 
-      local completion = {
-        completeopt = "menu,menuone,noinsert",
-        -- keyword_length = 1,
-      }
-
-      local snippet = {
-        expand = function(args)
-          luasnip.lsp_expand(args.body)
-        end,
-      }
-
-      local formatting = {
-        -- default fields order i.e completion word + item.kind + item.kind icons fields = field_arrangement[cmp_style] or { "abbr", "kind", "menu" },
-        format = function(_, item)
-          local icon = (Constants.icons.kind and Constants.icons.kind[item.kind]) or ""
-
-          item.kind = icon .. item.kind
-
-          return item
-        end,
-      }
-
-      local confirm_opts = {
-        behavior = cmp.ConfirmBehavior.Replace,
-        select = false,
-      }
-
-      local mapping = {
-        ["<C-p>"] = cmp.mapping.select_prev_item(),
-        ["<C-n>"] = cmp.mapping.select_next_item(),
-        ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-2), { "i", "c" }),
-        ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(2), { "i", "c" }),
-        ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-        ["<C-e>"] = cmp.mapping({
-          i = cmp.mapping.abort(),
-          c = cmp.mapping.close(),
-        }),
-        ["<CR>"] = cmp.mapping.confirm({ select = true }),
-      }
-
-      local window = {
-        completion = cmp.config.window.bordered(),
-        documentation = cmp.config.window.bordered(),
-      }
-
-      cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = "path" },
-        }, {
-          { name = "cmdline" },
-        }),
-      })
-
-      cmp.setup.cmdline({ "/", "?" }, {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" },
+    completion = {
+      list = { selection = { preselect = true, auto_insert = false } },
+      ghost_text = { enabled = true },
+      accept = {
+        auto_brackets = {
+          enabled = false,
         },
-      })
+      },
+      documentation = { auto_show = true, auto_show_delay_ms = 150 },
+      menu = {
+        draw = {
+          components = {
+            kind_icon = {
+              ellipsis = false,
+              text = function(ctx)
+                local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+                return kind_icon
+              end,
+              -- Optionally, you may also use the highlights from mini.icons
+              highlight = function(ctx)
+                local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+                return hl
+              end,
+            },
+          },
+        },
+      },
+    },
 
-      opts.completion = completion
-      opts.snippet = snippet
-      opts.confirm_opts = confirm_opts
-      opts.formatting = formatting
-      opts.mapping = mapping
-      opts.sources = Constants.completion.sources
-      opts.window = window
-    end,
-  },
-  -- --------------------------------------------------------------------- }}}
-  -- {{{ LuaSnip
-  {
-    "L3MON4D3/LuaSnip",
-    dependencies = {
-      "rafamadriz/friendly-snippets",
-      config = function()
-        require("luasnip.loaders.from_vscode").lazy_load()
-        require("luasnip.loaders.from_snipmate").lazy_load()
-      end,
+    appearance = {
+      -- Sets the fallback highlight groups to nvim-cmp's highlight groups
+      -- Useful for when your theme doesn't support blink.cmp
+      -- Will be removed in a future release
+      -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+      -- Adjusts spacing to ensure icons are aligned
+      nerd_font_variant = "mono",
     },
-    opts = {
-      history = true,
-      delete_check_events = "TextChanged",
+
+    -- Default list of enabled providers defined so that you can extend it
+    -- elsewhere in your config, without redefining it, due to `opts_extend`
+    sources = {
+      default = { "lazydev", "lsp", "path", "snippets", "buffer" },
+      providers = {
+        lazydev = {
+          name = "LazyDev",
+          module = "lazydev.integrations.blink",
+          score_offset = 100,
+        },
+      },
     },
+    fuzzy = { implementation = "lua" }
   },
-  -- --------------------------------------------------------------------- }}}
+  opts_extend = { "sources.default" },
+-- }}}
 }
